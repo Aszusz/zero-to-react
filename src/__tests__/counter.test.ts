@@ -1,12 +1,27 @@
 import {
-  decrement,
-  increment,
   initialState,
   selectCount,
+  increment,
+  decrement,
 } from '@/core/counter';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+
+// Mock the effects module
+vi.mock('./effects', () => ({
+  delay: vi.fn(() => Promise.resolve()),
+  random: vi.fn(() => 5), // Fixed return for predictable tests
+}));
 
 describe('Counter Functionality', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.useRealTimers();
+  });
+
   it('should initialize the count to 0', () => {
     const state = initialState();
     const count = selectCount(state);
@@ -26,12 +41,4 @@ describe('Counter Functionality', () => {
     const count = selectCount(state);
     expect(count).toBe(-1);
   });
-
-  // it('should increment the count by the specified amount when async increment action completes', () => {
-  //   let state = initialState;
-  //   state = reducer(state, AC['ui/increment-async'](null));
-  //   state = reducer(state, AC['eff/increment-async-ready'](7));
-  //   const count = selectCount(state);
-  //   expect(count).toBe(7);
-  // });
 });
