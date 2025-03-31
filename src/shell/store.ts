@@ -1,30 +1,40 @@
-import { counterMiddleware } from './middleware/counterMiddleware';
-import { loggerMiddleware } from './middleware/loggingMiddleware';
-import { Action } from '@/core/actions';
-import { reducer } from '@/core/reducer';
-import { initialState, State } from '@/core/state';
-import { composeWithDevTools } from '@redux-devtools/extension';
-import { useDispatch } from 'react-redux';
+import { delay, random } from './effects';
 import {
-  applyMiddleware,
-  legacy_createStore as createStore,
-  Dispatch,
-  isAction,
-  Middleware,
-} from 'redux';
+  decrement,
+  increment,
+  initialState,
+  selectCount,
+  State,
+} from '@/core/counter';
+import { useStore } from 'zustand';
+import { createStore } from 'zustand/vanilla';
 
-const enhancer = composeWithDevTools({
-  predicate: (_state, action) => !action.type.startsWith('_'),
-})(applyMiddleware(counterMiddleware, loggerMiddleware));
+const store = createStore<State>(() => initialState());
 
-export const store = createStore(reducer, initialState, enhancer);
+// Hooks
 
-export function isAppAction(action: unknown): action is Action {
-  return isAction(action);
-}
+export const useCount = () => useStore(store, selectCount);
 
-export type AppDispatch = Dispatch<Action>;
+// Thunks
 
-export type AppMiddleware<Ext = object> = Middleware<Ext, State, AppDispatch>;
+export const onIncrement = async () => {
+  console.log('onIncrement');
+  store.setState(increment(1));
+};
 
-export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const onDecrement = async () => {
+  console.log('onDecrement');
+  store.setState(decrement(1));
+};
+
+export const onIncrementAsync = async () => {
+  console.log('onIncrementAsync');
+  const rnd = random(5, 10);
+  await delay(rnd * 200);
+  store.setState(increment(rnd));
+};
+
+export const onIncrementAsyncReady = async (by: number) => {
+  console.log('onIncrementAsyncReady');
+  store.setState(increment(by));
+};
