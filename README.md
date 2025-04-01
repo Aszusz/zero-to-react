@@ -1,6 +1,6 @@
 # Zero-to-React 🚀
 
-Welcome to **Zero-to-React**, your launchpad to building React apps that actually spark joy. Whether you're after a barebones setup or a fully-loaded spaceship with Redux warp drives and ShadCN UI thrusters, this template has you covered. Built on modern tools to save you from yak shaving, it’s fast, maintainable, and slightly opinionated (in the good way).
+Welcome to **Zero-to-React**, your launchpad to building React apps that actually spark joy. Whether you're after a barebones setup or a fully-loaded spaceship with Redux warp drives, Zustand chill mode, and ShadCN UI thrusters, this template has you covered. Built on modern tools to save you from yak shaving, it’s fast, maintainable, and slightly opinionated (in the good way).
 
 ---
 
@@ -102,6 +102,41 @@ The full monty: state management and beautiful, accessible components. It’s li
 
 ```
 degit aszusz/zero-to-react#react-redux-shadcn your-project
+```
+
+---
+
+### 5. React + Zustand
+
+Minimalist, scalable, and stateful—but without the ceremony. Zustand is like Redux’s chill cousin who skipped the boilerplate and still gets stuff done.
+
+**Includes**:
+
+- Everything from the **React Branch**.
+- [Zustand](https://zustand-demo.pmnd.rs/): Small, fast, and flexible state management that just works.
+- Organized store folder structure, because even chill deserves a little structure.
+
+**Use it for**: Projects that need global state without the drama. Fast to build, easy to grow.
+
+```
+degit aszusz/zero-to-react#react-zustand your-project
+```
+
+---
+
+### 6. React + Zustand + ShadCN
+
+A cozy setup with beautiful UI components and a no-fuss global state. Zustand and ShadCN get along surprisingly well—it’s like pairing a great backend with a stylish frontend.
+
+**Includes**:
+
+- Everything from the **React-Zustand Branch**.
+- Everything from the **React-ShadCN Branch**.
+
+**Use it for**: Sleek, modern apps where dev experience and maintainability are top priorities.
+
+```
+degit aszusz/zero-to-react#react-zustand-shadcn your-project
 ```
 
 ---
