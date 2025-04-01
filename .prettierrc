@@ -3,6 +3,7 @@
     "@trivago/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss"
   ],
+  "tailwindFunctions": ["cva", "clsx"],
   "arrowParens": "always",
   "bracketSpacing": true,
   "bracketSameLine": false,

@@ -1,3 +1,6 @@
 {
-  "files.associations": { "*.css": "tailwindcss" }
+  "files.associations": { "*.css": "tailwindcss" },
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ]
 }
