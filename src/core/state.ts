@@ -1,7 +1,9 @@
-export type State = {
-  readonly count: number;
-};
+export type State = Readonly<{
+  count: number;
+  incrementing: boolean;
+}>;
 
 export const initialState: State = {
   count: 0,
+  incrementing: false,
 };

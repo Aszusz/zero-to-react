@@ -1,18 +1,22 @@
-import { AC } from '@/core/actions';
-import { useAppDispatch } from '@/shell/store';
-import { useCount } from '@/shell/storeHooks';
+import { ec } from '@/core/events';
+import { selectCount, selectIncrementing } from '@/core/selectors';
+import { useAppEmit, useAppSelector } from '@/shell/storeHooks';
 import { Button } from '@/view/components/shadcn/button';
 
 function App() {
-  const count = useCount();
-  const dispatch = useAppDispatch();
-  const increment = () => dispatch(AC['ui/increment'](null));
-  const decrement = () => dispatch(AC['ui/decrement'](null));
-  const incrementAsync = () => dispatch(AC['ui/increment-async'](null));
+  const count = useAppSelector(selectCount);
+  const isIncrementing = useAppSelector(selectIncrementing);
+  const emit = useAppEmit();
+
+  const handleIncrement = () => emit(ec.incrementClicked(null));
+  const handleDecrement = () => emit(ec.decrementClicked(null));
+  const handleIncrementAsync = () => emit(ec.incrementAsyncClicked(null));
 
   return (
     <div className="m-10 mx-auto flex max-w-xs flex-col items-center justify-center space-y-4 rounded-lg bg-gray-100 p-4 shadow-lg">
       <h1 className="text-2xl font-semibold">Counter: {count}</h1>
+      {/* Optionally display loading state */}
+      {isIncrementing && <p className="text-sm text-gray-600">Processing...</p>}
 
       {/* Button grid container */}
       <div className="grid w-full grid-cols-2 gap-4">
@@ -20,7 +24,8 @@ function App() {
           size={'lg'}
           variant={'default'}
           className="text-md font-semibold"
-          onClick={increment}
+          onClick={handleIncrement}
+          disabled={isIncrementing}
         >
           Increment
         </Button>
@@ -28,7 +33,8 @@ function App() {
           size={'lg'}
           variant={'default'}
           className="text-md font-semibold"
-          onClick={decrement}
+          onClick={handleDecrement}
+          disabled={isIncrementing}
         >
           Decrement
         </Button>
@@ -36,7 +42,8 @@ function App() {
           size={'lg'}
           variant={'default'}
           className="text-md col-span-2 font-semibold"
-          onClick={incrementAsync}
+          onClick={handleIncrementAsync}
+          disabled={isIncrementing}
         >
           Increment Async
         </Button>

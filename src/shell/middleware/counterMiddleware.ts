@@ -1,19 +1,17 @@
-import { AC, AT } from '@/core/actions';
-import { delay, random } from '@/shell/effects';
-import { AppMiddleware, isAppAction } from '@/shell/store';
+import { delay, random } from '../effects';
+import { Event, ec, et } from '@/core/events';
+import { State } from '@/core/state';
+import { Middleware } from '@/horizon';
 
-export const counterMiddleware: AppMiddleware =
-  (store) => (next) => async (action) => {
-    if (!isAppAction(action)) {
-      return next(action);
-    }
+export const asyncIncrementMiddleware: Middleware<State, Event> =
+  (api) => (next) => async (event) => {
+    const result = next(event);
 
-    const result = next(action);
-
-    if (action.type === AT['ui/increment-async']) {
-      const rnd = random(5, 10);
-      await delay(rnd * 200);
-      store.dispatch(AC['eff/increment-async-ready'](rnd));
+    if (event.type === et.incrementAsyncClicked) {
+      const amount = random(5, 10);
+      await delay(amount * 200);
+      api.emit(ec.incrementAsyncDone({ amount }));
+      return;
     }
 
     return result;

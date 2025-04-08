@@ -1,30 +1,9 @@
-import { counterMiddleware } from './middleware/counterMiddleware';
-import { loggerMiddleware } from './middleware/loggingMiddleware';
-import { Action } from '@/core/actions';
+import { asyncIncrementMiddleware } from './middleware/counterMiddleware';
+import { type Event } from '@/core/events';
 import { reducer } from '@/core/reducer';
 import { initialState, State } from '@/core/state';
-import { composeWithDevTools } from '@redux-devtools/extension';
-import { useDispatch } from 'react-redux';
-import {
-  applyMiddleware,
-  legacy_createStore as createStore,
-  Dispatch,
-  isAction,
-  Middleware,
-} from 'redux';
+import { createStore } from '@/horizon';
 
-const enhancer = composeWithDevTools({
-  predicate: (_state, action) => !action.type.startsWith('_'),
-})(applyMiddleware(counterMiddleware, loggerMiddleware));
-
-export const store = createStore(reducer, initialState, enhancer);
-
-export function isAppAction(action: unknown): action is Action {
-  return isAction(action);
-}
-
-export type AppDispatch = Dispatch<Action>;
-
-export type AppMiddleware<Ext = object> = Middleware<Ext, State, AppDispatch>;
-
-export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const store = createStore<State, Event>(reducer, initialState, [
+  asyncIncrementMiddleware,
+]);

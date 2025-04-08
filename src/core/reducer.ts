@@ -1,29 +1,21 @@
-import { Action, AT } from './actions';
-import { initialState, State } from './state';
+import { et, type Event } from './events';
+import { State } from './state';
+import { Reducer } from '@/horizon';
 
-export const reducer = (state: State = initialState, action: Action): State => {
-  switch (action.type) {
-    case AT['ui/increment']: {
+export const reducer: Reducer<State, Event> = (state: State, event: Event) => {
+  switch (event.type) {
+    case et.incrementClicked:
+      return { ...state, count: state.count + 1 };
+    case et.decrementClicked:
+      return { ...state, count: state.count - 1 };
+    case et.incrementAsyncClicked:
+      return { ...state, incrementing: true };
+    case et.incrementAsyncDone:
       return {
         ...state,
-        count: state.count + 1,
+        count: state.count + event.payload.amount,
+        incrementing: false,
       };
-    }
-
-    case AT['ui/decrement']: {
-      return {
-        ...state,
-        count: state.count - 1,
-      };
-    }
-
-    case AT['eff/increment-async-ready']: {
-      return {
-        ...state,
-        count: state.count + action.payload,
-      };
-    }
-
     default:
       return state;
   }
