@@ -1,19 +1,16 @@
-import { AC, AT } from '@/core/actions';
+import { Action, Actions } from '@/core/actions';
+import { State } from '@/core/state';
+import { Middleware } from '@/lib/strict-redux/types';
 import { delay, random } from '@/shell/effects';
-import { AppMiddleware, isAppAction } from '@/shell/store';
 
-export const counterMiddleware: AppMiddleware =
+export const counterMiddleware: Middleware<State, Action> =
   (store) => (next) => async (action) => {
-    if (!isAppAction(action)) {
-      return next(action);
-    }
-
     const result = next(action);
 
-    if (action.type === AT['ui/increment-async']) {
+    if (Actions.is['ui/increment-async'](action)) {
       const rnd = random(5, 10);
       await delay(rnd * 200);
-      store.dispatch(AC['eff/increment-async-ready'](rnd));
+      store.dispatch(Actions.create['eff/increment-async-ready'](rnd));
     }
 
     return result;

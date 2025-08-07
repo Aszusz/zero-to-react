@@ -1,22 +1,10 @@
-import {
-  actionDef,
-  makeActionCreators,
-  makeActionTypes,
-  ReturnTypes,
-  UnionOf,
-} from '@/lib/action-helper';
+import { ofType, union } from '@/lib/strict-union';
 
-const actions = {
-  ['ui/increment']: actionDef<null>(),
-  ['ui/decrement']: actionDef<null>(),
-  ['ui/increment-async']: actionDef<null>(),
-  ['eff/increment-async-ready']: actionDef<number>(),
-} as const;
+export const Actions = union('type', 'payload', {
+  ['ui/increment']: ofType<null>(),
+  ['ui/decrement']: ofType<null>(),
+  ['ui/increment-async']: ofType<null>(),
+  ['eff/increment-async-ready']: ofType<number>(),
+} as const);
 
-/* Action Types */
-export const AT = makeActionTypes(actions);
-
-/* Action Creators */
-export const AC = makeActionCreators(actions);
-
-export type Action = UnionOf<ReturnTypes<typeof AC>>;
+export type Action = typeof Actions.Union;

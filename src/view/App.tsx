@@ -1,14 +1,18 @@
-import { AC } from '@/core/actions';
-import { useAppDispatch } from '@/shell/store';
-import { useCount } from '@/shell/storeHooks';
+import { Actions } from '@/core/actions';
+import { selectCount } from '@/core/selectors';
+import { useSelector } from '@/lib/strict-redux/hooks';
+import { StoreContext } from '@/shell/store';
 import { Button } from '@/view/components/shadcn/button';
+import { useContext } from 'react';
 
 function App() {
-  const count = useCount();
-  const dispatch = useAppDispatch();
-  const increment = () => dispatch(AC['ui/increment'](null));
-  const decrement = () => dispatch(AC['ui/decrement'](null));
-  const incrementAsync = () => dispatch(AC['ui/increment-async'](null));
+  const store = useContext(StoreContext);
+  const count = useSelector(store, selectCount);
+  const dispatch = store.dispatch;
+  const increment = () => dispatch(Actions.create['ui/increment'](null));
+  const decrement = () => dispatch(Actions.create['ui/decrement'](null));
+  const incrementAsync = () =>
+    dispatch(Actions.create['ui/increment-async'](null));
 
   return (
     <div className="m-10 mx-auto flex max-w-xs flex-col items-center justify-center space-y-4 rounded-lg bg-gray-100 p-4 shadow-lg">
