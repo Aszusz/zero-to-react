@@ -8,7 +8,8 @@ function Controls() {
   const dispatch = store.dispatch;
   const increment = () => dispatch(Actions.create['ui/increment'](null));
   const decrement = () => dispatch(Actions.create['ui/decrement'](null));
-  const incrementAsync = () => dispatch(Actions.create['ui/increment-async'](null));
+  const incrementAsync = () =>
+    dispatch(Actions.create['ui/increment-async'](null));
   return (
     <div className="grid w-full grid-cols-2 gap-4">
       <Button

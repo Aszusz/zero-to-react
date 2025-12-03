@@ -1,5 +1,5 @@
-import Count from '@/view/Count';
 import Controls from '@/view/Controls';
+import Count from '@/view/Count';
 
 function App() {
   return (
